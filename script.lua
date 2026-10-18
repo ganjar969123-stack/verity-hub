@@ -1,52 +1,18 @@
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local playerGui = player:FindFirstChild("PlayerGui") or player:WaitForChild("PlayerGui")
+local savedPosition = nil
 
-local gui = Instance.new("ScreenGui")
-gui.Name = "VerityHub"
-gui.ResetOnSpawn = false
-gui.Parent = playerGui
-
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 230, 0, 170)
-frame.Position = UDim2.new(0.5, -115, 0.5, -85)
-frame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-frame.Active = true
-frame.Draggable = true
-frame.Parent = gui
-
-local input = Instance.new("TextBox")
-input.Size = UDim2.new(1, -20, 0, 40)
-input.Position = UDim2.new(0, 10, 0, 20)
-input.PlaceholderText = "Masukkan Speed"
-input.Text = ""
-input.Parent = frame
-
-local button = Instance.new("TextButton")
-button.Size = UDim2.new(1, -20, 0, 45)
-button.Position = UDim2.new(0, 10, 0, 70)
-button.Text = "SET SPEED"
-button.Parent = frame
-
-local reset = Instance.new("TextButton")
-reset.Size = UDim2.new(1, -20, 0, 45)
-reset.Position = UDim2.new(0, 10, 0, 120)
-reset.Text = "RESET SPEED"
-reset.Parent = frame
-
-button.MouseButton1Click:Connect(function()
- local val = tonumber(input.Text)
- local char = player.Character
- local hum = char and char:FindFirstChild("Humanoid")
- if hum and val then
- hum.WalkSpeed = val
+local saveBtn = createButton("Save Position", scrollingFrame)
+saveBtn.MouseButton1Click:Connect(function()
+ if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+ savedPosition = player.Character.HumanoidRootPart.CFrame
+ saveBtn.Text = "Saved!"
+ task.wait(1)
+ saveBtn.Text = "Save Position"
  end
 end)
 
-reset.MouseButton1Click:Connect(function()
- local char = player.Character
- local hum = char and char:FindFirstChild("Humanoid")
- if hum then
- hum.WalkSpeed = 16
+local loadBtn = createButton("Load Position", scrollingFrame)
+loadBtn.MouseButton1Click:Connect(function()
+ if savedPosition and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+ player.Character.HumanoidRootPart.CFrame = savedPosition
  end
 end)
