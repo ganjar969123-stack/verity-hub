@@ -1,4 +1,3 @@
-```lua
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:FindFirstChild("PlayerGui") or player:WaitForChild("PlayerGui")
@@ -65,4 +64,3 @@ button.MouseButton1Click:Connect(function()
  end
  end
 end)
-```
