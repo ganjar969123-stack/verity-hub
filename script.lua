@@ -42,3 +42,4 @@ saveButton.Activated:Connect(function()
         saveButton.Text = "POSITION SAVED!"
     else
         saveButton.Text = "CHARACTER NOT FOUND
+gui.Parent = player:WaitForChild("PlayerGui")
