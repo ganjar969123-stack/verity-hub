@@ -1,3 +1,4 @@
+```lua
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:FindFirstChild("PlayerGui") or player:WaitForChild("PlayerGui")
@@ -18,7 +19,7 @@ frame.Parent = gui
 local input = Instance.new("TextBox")
 input.Size = UDim2.new(1, -20, 0, 40)
 input.Position = UDim2.new(0, 10, 0, 20)
-input.PlaceholderText = "Masukkan Speed (Contoh: 50)"
+input.PlaceholderText = "Masukkan Speed (Tanpa Batas)"
 input.Text = ""
 input.Parent = frame
 
@@ -50,3 +51,4 @@ reset.MouseButton1Click:Connect(function()
  hum.WalkSpeed = 16
  end
 end)
+```
