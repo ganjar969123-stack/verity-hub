@@ -1,4 +1,3 @@
-```lua
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:FindFirstChild("PlayerGui") or player:WaitForChild("PlayerGui")
@@ -51,4 +50,3 @@ reset.MouseButton1Click:Connect(function()
  hum.WalkSpeed = 16
  end
 end)
-```
