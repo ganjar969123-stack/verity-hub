@@ -18,7 +18,7 @@ frame.Parent = gui
 local input = Instance.new("TextBox")
 input.Size = UDim2.new(1, -20, 0, 40)
 input.Position = UDim2.new(0, 10, 0, 20)
-input.PlaceholderText = "Masukkan Speed (Max 100)"
+input.PlaceholderText = "Masukkan Speed"
 input.Text = ""
 input.Parent = frame
 
@@ -39,7 +39,6 @@ button.MouseButton1Click:Connect(function()
  local char = player.Character
  local hum = char and char:FindFirstChild("Humanoid")
  if hum and val then
- if val > 100 then val = 100 end
  hum.WalkSpeed = val
  end
 end)
