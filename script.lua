@@ -1,39 +1,25 @@
--- Steal a Verity - Automation Script
--- Peringatan: Gunakan script ini dengan bijak. 
--- Penggunaan script pihak ketiga dapat melanggar ketentuan layanan game.
+setfflag("ProximityPromptInputUseNewGamepad", false)
 
+local UIS = game:GetService("UserInputService")
 local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local rootPart = character:WaitForChild("HumanoidRootPart")
 
--- Fungsi untuk mengambil Verity secara otomatis
-local function autoCollectVerity()
- for _, item in pairs(workspace:GetDescendants()) do
- if item.Name == "Verity" and item:IsA("BasePart") then
- -- Teleport pemain ke lokasi Verity
- rootPart.CFrame = item.CFrame
- wait(0.5)
- 
- -- Interaksi dengan object (sesuaikan dengan mekanisme game)
- local proximityPrompt = item:FindFirstChildOfClass("ProximityPrompt")
- if proximityPrompt then
- fireproximityprompt(proximityPrompt)
+task.spawn(function()
+ while task.wait(3) do
+ for _, v in workspace:GetDescendants() do
+ if v:IsA("ProximityPrompt") and v.Parent.Name == "Verity" then
+ pcall(function()
+ fireproximityprompt(v, 0)
+ player.Character.HumanoidRootPart.CFrame = v.Parent.CFrame + Vector3.new(0, 1, 0)
+ end)
  end
  end
  end
+end)
+
+while task.wait(10) do
+ pcall(function()
+ UIS:InputButtonPress(Enum.KeyCode.Space)
+ task.wait(0.1)
+ UIS:InputButtonRelease(Enum.KeyCode.Space)
+ end)
 end
-
--- Loop utama untuk menjalankan fitur
-spawn(function()
- while true do
- autoCollectVerity()
- wait(5) -- Delay agar tidak terdeteksi spam
- end
-end)
-
--- Fitur tambahan: Anti-AFK
-local virtualUser = game:GetService("VirtualUser")
-player.Idled:Connect(function()
- virtualUser:CaptureController()
- virtualUser:ClickButton2(Vector2.new())
-end)
