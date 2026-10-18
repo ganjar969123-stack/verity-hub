@@ -1,18 +1,53 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
 local savedPosition = nil
 
-local saveBtn = createButton("Save Position", scrollingFrame)
-saveBtn.MouseButton1Click:Connect(function()
- if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
- savedPosition = player.Character.HumanoidRootPart.CFrame
- saveBtn.Text = "Saved!"
- task.wait(1)
- saveBtn.Text = "Save Position"
- end
+local gui = Instance.new("ScreenGui")
+gui.Name = "SaveTeleport"
+gui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.fromOffset(230, 145)
+frame.Position = UDim2.new(0.5, -115, 0.5, -72)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+frame.Parent = gui
+
+local saveButton = Instance.new("TextButton")
+saveButton.Size = UDim2.new(1, -20, 0, 45)
+saveButton.Position = UDim2.fromOffset(10, 10)
+saveButton.Text = "SAVE POSITION"
+saveButton.Parent = frame
+
+local backButton = Instance.new("TextButton")
+backButton.Size = UDim2.new(1, -20, 0, 45)
+backButton.Position = UDim2.fromOffset(10, 65)
+backButton.Text = "TELEPORT BACK"
+backButton.Parent = frame
+
+saveButton.Activated:Connect(function()
+    local character = player.Character
+    local root = character and character:FindFirstChild("HumanoidRootPart")
+
+    if root then
+        savedPosition = root.CFrame
+        saveButton.Text = "POSITION SAVED!"
+    end
 end)
 
-local loadBtn = createButton("Load Position", scrollingFrame)
-loadBtn.MouseButton1Click:Connect(function()
- if savedPosition and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
- player.Character.HumanoidRootPart.CFrame = savedPosition
- end
+backButton.Activated:Connect(function()
+    if not savedPosition then
+        backButton.Text = "SAVE POSITION FIRST!"
+        return
+    end
+
+    local character = player.Character
+    local root = character and character:FindFirstChild("HumanoidRootPart")
+
+    if root then
+        root.CFrame = savedPosition
+        backButton.Text = "TELEPORTED!"
+    end
 end)
+
+gui.Parent = player:WaitForChild("PlayerGui")
