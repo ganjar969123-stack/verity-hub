@@ -7,6 +7,7 @@ local running = false
 local gui = Instance.new("ScreenGui")
 gui.Name = "VerityHub"
 gui.ResetOnSpawn = false
+gui.Parent = game.CoreGui -- Pastikan GUI muncul di layar
 
 local frame = Instance.new("Frame")
 frame.Size = UDim2.fromOffset(230, 130)
@@ -35,15 +36,24 @@ status.TextColor3 = Color3.new(1, 1, 1)
 status.BackgroundTransparency = 1
 status.Parent = frame
 
-button.Activated:Connect(function()
-    running = not running
-    button.Text = running and "AUTO WALK: ON" or "AUTO WALK: OFF"
-
-    if running then
-        status.Text = "Tujuan base belum ditemukan"
-    else
-        status.Text = "Berhenti"
-    end
+-- Logika tombol
+button.MouseButton1Click:Connect(function()
+ running = not running
+ if running then
+ button.Text = "AUTO WALK: ON"
+ status.Text = "Berjalan..."
+ 
+ local character = player.Character or player.CharacterAdded:Wait()
+ local humanoid = character:FindFirstChild("Humanoid")
+ 
+ task.spawn(function()
+ while running and humanoid do
+ humanoid:Move(Vector3.new(0, 0, -1)) 
+ task.wait(0.1)
+ end
+ end)
+ else
+ button.Text = "AUTO WALK: OFF"
+ status.Text = "Siap"
+ end
 end)
-
-gui.Parent = player:WaitForChild("PlayerGui")
