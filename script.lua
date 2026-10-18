@@ -1,25 +1,18 @@
-setfflag("ProximityPromptInputUseNewGamepad", false)
+local savedPosition = nil
 
-local UIS = game:GetService("UserInputService")
-local player = game.Players.LocalPlayer
-
-task.spawn(function()
- while task.wait(3) do
- for _, v in workspace:GetDescendants() do
- if v:IsA("ProximityPrompt") and v.Parent.Name == "Verity" then
- pcall(function()
- fireproximityprompt(v, 0)
- player.Character.HumanoidRootPart.CFrame = v.Parent.CFrame + Vector3.new(0, 1, 0)
- end)
- end
- end
+local saveBtn = createButton("Save Position", scrollingFrame)
+saveBtn.MouseButton1Click:Connect(function()
+ if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+ savedPosition = player.Character.HumanoidRootPart.CFrame
+ saveBtn.Text = "Saved!"
+ task.wait(1)
+ saveBtn.Text = "Save Position"
  end
 end)
 
-while task.wait(10) do
- pcall(function()
- UIS:InputButtonPress(Enum.KeyCode.Space)
- task.wait(0.1)
- UIS:InputButtonRelease(Enum.KeyCode.Space)
- end)
-end
+local loadBtn = createButton("Load Position", scrollingFrame)
+loadBtn.MouseButton1Click:Connect(function()
+ if savedPosition and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+ player.Character.HumanoidRootPart.CFrame = savedPosition
+ end
+end)
