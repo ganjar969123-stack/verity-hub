@@ -103,7 +103,7 @@ header.Activated:Connect(minimize)
 restore.Activated:Connect(show)
 
 tp.Activated:Connect(function()
-    info.Text = "TP masih placeholder!"
+    status.Text = "AUTO WALK belum diatur!"
 end)
 
 -- Drag support untuk mouse dan sentuhan
