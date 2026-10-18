@@ -2,7 +2,6 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
 local savedPosition = nil
-local busy = false
 
 local gui = Instance.new("ScreenGui")
 gui.Name = "SaveTeleport"
@@ -27,51 +26,30 @@ backButton.Text = "TELEPORT BACK"
 backButton.Parent = frame
 
 saveButton.Activated:Connect(function()
-    local character = player.Character
-    local root = character and character:FindFirstChild("HumanoidRootPart")
+local character = player.Character
+local root = character and character:FindFirstChild("HumanoidRootPart")
 
-    if root then
-        savedPosition = root.CFrame
-        saveButton.Text = "POSITION SAVED!"
-    end
+if root then  
+    savedPosition = root.CFrame  
+    saveButton.Text = "POSITION SAVED!"  
+end
+
 end)
 
 backButton.Activated:Connect(function()
-    if busy then return end
+if not savedPosition then
+backButton.Text = "SAVE POSITION FIRST!"
+return
+end
 
-    if not savedPosition then
-        backButton.Text = "SAVE POSITION FIRST!"
-        return
-    end
+local character = player.Character  
+local root = character and character:FindFirstChild("HumanoidRootPart")  
 
-    local character = player.Character
-    local root = character and character:FindFirstChild("HumanoidRootPart")
+if root then  
+    root.CFrame = savedPosition  
+    backButton.Text = "TELEPORTED!"  
+end
 
-    if not root then return end
-
-    busy = true
-    backButton.Text = "MOVING..."
-
-    local startPosition = root.Position
-    local targetPosition = savedPosition.Position
-    local distance = (targetPosition - startPosition).Magnitude
-    local steps = math.max(1, math.ceil(distance / 8))
-
-    for i = 1, steps do
-        character = player.Character
-        root = character and character:FindFirstChild("HumanoidRootPart")
-
-        if not root then break end
-
-        local alpha = i / steps
-        local nextPosition = startPosition:Lerp(targetPosition, alpha)
-
-        root.CFrame = CFrame.new(nextPosition)
-        task.wait(0.15)
-    end
-
-    backButton.Text = "TELEPORT BACK"
-    busy = false
 end)
 
 gui.Parent = player:WaitForChild("PlayerGui")
