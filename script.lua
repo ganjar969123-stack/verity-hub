@@ -50,7 +50,7 @@ button.MouseButton1Click:Connect(function()
  local hum = char and char:FindFirstChild("Humanoid")
  local root = char and char:FindFirstChild("HumanoidRootPart")
  if hum and root then
- hum:Move(root.CFrame.LookVector, true)
+ hum:MoveTo(root.Position + (root.CFrame.LookVector  10))
  end
  task.wait(0.1)
  end
@@ -61,7 +61,7 @@ button.MouseButton1Click:Connect(function()
  local char = player.Character
  local hum = char and char:FindFirstChild("Humanoid")
  if hum then
- hum:Move(Vector3.new(0, 0, 0), true)
+ hum:MoveTo(char.HumanoidRootPart.Position)
  end
  end
 end)
