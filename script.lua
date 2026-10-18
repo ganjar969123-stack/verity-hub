@@ -103,7 +103,8 @@ header.Activated:Connect(minimize)
 restore.Activated:Connect(show)
 
 tp.Activated:Connect(function()
-    status.Text = "AUTO WALK belum diatur!"
+    status.Text = "TOMBOL BERFUNGSI!"
+    print("Tombol diklik!")
 end)
 
 -- Drag support untuk mouse dan sentuhan
