@@ -1,19 +1,21 @@
+```lua
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
-
+local playerGui = player:FindFirstChild("PlayerGui") or player:WaitForChild("PlayerGui")
 local running = false
 
--- Membuat GUI
 local gui = Instance.new("ScreenGui")
 gui.Name = "VerityHub"
 gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
 gui.Parent = playerGui
 
 local frame = Instance.new("Frame")
 frame.Size = UDim2.fromOffset(230, 130)
 frame.Position = UDim2.new(0.5, -115, 0.5, -65)
 frame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+frame.Active = true
+frame.Draggable = true
 frame.Parent = gui
 
 local title = Instance.new("TextLabel")
@@ -37,22 +39,17 @@ status.TextColor3 = Color3.new(1, 1, 1)
 status.BackgroundTransparency = 1
 status.Parent = frame
 
--- Logika Tombol
 button.MouseButton1Click:Connect(function()
  running = not running
- 
  if running then
  button.Text = "AUTO WALK: ON"
  status.Text = "Berjalan..."
- 
  task.spawn(function()
  while running do
  local character = player.Character
  local humanoid = character and character:FindFirstChild("Humanoid")
  local rootPart = character and character:FindFirstChild("HumanoidRootPart")
- 
  if humanoid and rootPart then
- -- Menggerakkan karakter ke arah depan (LookVector)
  humanoid:Move(rootPart.CFrame.LookVector, true)
  end
  task.wait(0.1)
@@ -61,8 +58,6 @@ button.MouseButton1Click:Connect(function()
  else
  button.Text = "AUTO WALK: OFF"
  status.Text = "Siap"
- 
- -- Menghentikan gerakan saat dimatikan
  local character = player.Character
  local humanoid = character and character:FindFirstChild("Humanoid")
  if humanoid then
@@ -70,3 +65,4 @@ button.MouseButton1Click:Connect(function()
  end
  end
 end)
+```
