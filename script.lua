@@ -1,16 +1,39 @@
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+-- Steal a Verity - Automation Script
+-- Peringatan: Gunakan script ini dengan bijak. 
+-- Penggunaan script pihak ketiga dapat melanggar ketentuan layanan game.
 
-local gui = Instance.new("ScreenGui")
-gui.Name = "TestUI"
-gui.ResetOnSpawn = false
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
 
-local button = Instance.new("TextButton")
-button.Size = UDim2.fromOffset(200, 60)
-button.Position = UDim2.new(0.5, -100, 0.5, -30)
-button.Text = "UI BERHASIL MUNCUL"
-button.TextScaled = true
-button.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
-button.Parent = gui
+-- Fungsi untuk mengambil Verity secara otomatis
+local function autoCollectVerity()
+ for _, item in pairs(workspace:GetDescendants()) do
+ if item.Name == "Verity" and item:IsA("BasePart") then
+ -- Teleport pemain ke lokasi Verity
+ rootPart.CFrame = item.CFrame
+ wait(0.5)
+ 
+ -- Interaksi dengan object (sesuaikan dengan mekanisme game)
+ local proximityPrompt = item:FindFirstChildOfClass("ProximityPrompt")
+ if proximityPrompt then
+ fireproximityprompt(proximityPrompt)
+ end
+ end
+ end
+end
 
-gui.Parent = player:WaitForChild("PlayerGui")
+-- Loop utama untuk menjalankan fitur
+spawn(function()
+ while true do
+ autoCollectVerity()
+ wait(5) -- Delay agar tidak terdeteksi spam
+ end
+end)
+
+-- Fitur tambahan: Anti-AFK
+local virtualUser = game:GetService("VirtualUser")
+player.Idled:Connect(function()
+ virtualUser:CaptureController()
+ virtualUser:ClickButton2(Vector2.new())
+end)
