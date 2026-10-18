@@ -18,7 +18,7 @@ frame.Parent = gui
 local input = Instance.new("TextBox")
 input.Size = UDim2.new(1, -20, 0, 40)
 input.Position = UDim2.new(0, 10, 0, 20)
-input.PlaceholderText = "Masukkan Speed (Tanpa Batas)"
+input.PlaceholderText = "Masukkan Speed"
 input.Text = ""
 input.Parent = frame
 
